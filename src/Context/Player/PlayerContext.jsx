@@ -1,7 +1,7 @@
 import { createContext, useContext, useReducer } from "react";
 import { getRandomPosition } from "../../Constants/Board";
 import { SHIPS } from "../../Constants/Ships";
-import { updateHittedBoard } from "../../Helper/BoardHelper";
+import { isBoardPositionShotable, updateHittedBoard } from "../../Helper/BoardHelper";
 import { addShipOnRow, removeShipFromRow, isAnyShipAtPosition, placeRandomShip, allShipsSinked } from "../../Helper/ShipHelper";
 import { actions, initialState, reducer } from "./PlayerReducer";
 
@@ -78,19 +78,22 @@ export const PlayerProvider = ({ children }) => {
     const enemyShot = () => {
         const randomRow = getRandomPosition()
         const randomBox = getRandomPosition()
-        const hittedShip = value.ships.findIndex(ship => isAnyShipAtPosition(ship, randomRow, randomBox))
-        const newShipsArray = value.ships.map(
-            (ship,index) => index !== hittedShip ? ship : {...ship, hits: ship.hits+1}
-        )
-        const ship = hittedShip >= 0 ? newShipsArray[hittedShip] : {hits: 1, size: 0}
-        const newBoard = updateHittedBoard(value.board, ship, randomRow, randomBox)
-        dispatch({
-            type: actions.PLAYER_SHOT,
-            payload: {
-                ships: newShipsArray,
-                board: newBoard
-            }
-        })
+        console.log("Random Shot", randomRow, randomBox)
+        if (isBoardPositionShotable(value.board, randomRow, randomBox)) {
+            const hittedShip = value.ships.findIndex(ship => isAnyShipAtPosition(ship, randomRow, randomBox))
+            const newShipsArray = value.ships.map(
+                (ship,index) => index !== hittedShip ? ship : {...ship, hits: ship.hits+1}
+            )
+            const ship = hittedShip >= 0 ? newShipsArray[hittedShip] : {hits: 1, size: 0}
+            const newBoard = updateHittedBoard(value.board, ship, randomRow, randomBox)
+            dispatch({
+                type: actions.PLAYER_SHOT,
+                payload: {
+                    ships: newShipsArray,
+                    board: newBoard
+                }
+            })
+        } else enemyShot()
     }
     
     const playerShot = (rowIndex, boxIndex) => {

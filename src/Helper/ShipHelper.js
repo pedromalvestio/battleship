@@ -29,6 +29,11 @@ export const isAnyShipAtPosition = (ship, rowIndex, boxIndex) => {
     return row === rowIndex && box <= boxIndex && boxIndex < (box + size)
 }
 
+const canPlaceShipAtRowPosition = ({shipToCompare, boxIndex, shipPosition}) => {
+    const { box, size } = shipToCompare
+    return box <= boxIndex && shipPosition < (box + size)
+}
+
 export const placeRandomShip = (shipList, shipSize) => {
     const randomRow = getRandomPosition()
     const randomBox = getRandomPosition()
@@ -36,7 +41,7 @@ export const placeRandomShip = (shipList, shipSize) => {
     if (!isOutOfRowBoundaries(shipPosition)) {
         const boatCount = shipList.filter(ship => 
             ship.row === randomRow).filter(ship => 
-                isAnyShipAtPosition(ship, randomRow, randomBox))
+                canPlaceShipAtRowPosition(ship, randomBox, shipPosition))
         if (boatCount.length === 0){
             return {
                 row: randomRow,

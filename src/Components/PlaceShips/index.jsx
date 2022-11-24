@@ -17,6 +17,7 @@ export const PlaceShips = () => {
         clearShip, 
         setEnemyRandomShips 
     } = usePlayer()
+    
     const [selectedShipsIndex, setSelectedShipsIndex] = useState(SHIPS.BIG.index)
     const navigate = useNavigate()
 

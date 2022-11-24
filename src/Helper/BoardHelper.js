@@ -10,3 +10,4 @@ export const updateHittedBoard = (board, ship, rowIndex, boxIndex) =>
                     : BOX_STATE.MISS
             )
     )
+export const isBoardPositionShotable = (board, row, box) => board[row][box] !== BOX_STATE.HIT && board[row][box] !== BOX_STATE.MISS

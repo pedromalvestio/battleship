@@ -7,7 +7,7 @@ import { allShipsSinked } from "../../Helper/ShipHelper"
 import { GameContainer } from "./styles"
 
 const Game = () => {
-    const { ships, enemyShips, enemyShot, playerShot, winner } = usePlayer()
+    const { ships, enemyShips, enemyShot, playerShot, finishGame } = usePlayer()
     const navigate = useNavigate()
 
     const [playerTurn, setPlayerTurn] = useState(true)
@@ -15,7 +15,7 @@ const Game = () => {
 
     const checkWonCondition = () => { 
         if ((allShipsSinked(ships)) || (allShipsSinked(enemyShips))) {
-            winner()
+            finishGame()
             navigate("/game-result")
         }
     }
@@ -26,12 +26,14 @@ const Game = () => {
      
     const changeTurn = () => {
         toogleTurn()
+        checkWonCondition()
         setTimeout(
             () => {
                 enemyShot()
                 setTimeout(
                     () => {
                         toogleTurn()
+                        checkWonCondition()
                         turnEnding.current = false
                 },2000)
         },1000)
@@ -40,7 +42,6 @@ const Game = () => {
     const getBoardPostition = (rowIndex, boxIndex) => {
         if (turnEnding.current) return
         playerShot(rowIndex, boxIndex)
-        checkWonCondition()
         turnEnding.current = true
         setTimeout(() => changeTurn(),2000)
     }
