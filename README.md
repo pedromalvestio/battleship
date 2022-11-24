@@ -2,6 +2,7 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+After pushing this repository you need to have `node` installed and run `npm install` on command line to install all dependencies.
 ## Available Scripts
 
 In the project directory, you can run:
