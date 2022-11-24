@@ -78,7 +78,6 @@ export const PlayerProvider = ({ children }) => {
     const enemyShot = () => {
         const randomRow = getRandomPosition()
         const randomBox = getRandomPosition()
-        console.log("Random Shot", randomRow, randomBox)
         if (isBoardPositionShotable(value.board, randomRow, randomBox)) {
             const hittedShip = value.ships.findIndex(ship => isAnyShipAtPosition(ship, randomRow, randomBox))
             const newShipsArray = value.ships.map(
