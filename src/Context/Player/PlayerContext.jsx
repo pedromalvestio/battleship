@@ -11,8 +11,10 @@ export const PlayerProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     const startGame = () => {
+        console.log("gameStarted")
         dispatch({type: actions.START_GAME})
     }
+
     const updateBoard = (board) => {        
         dispatch({
             type: actions.UPDATE_BOARD,
@@ -83,6 +85,7 @@ export const PlayerProvider = ({ children }) => {
             const newShipsArray = value.ships.map(
                 (ship,index) => index !== hittedShip ? ship : {...ship, hits: ship.hits+1}
             )
+            finishGame(newShipsArray, "Enemy")
             const ship = hittedShip >= 0 ? newShipsArray[hittedShip] : {hits: 1, size: 0}
             const newBoard = updateHittedBoard(value.board, ship, randomRow, randomBox)
             dispatch({
@@ -100,6 +103,7 @@ export const PlayerProvider = ({ children }) => {
         const newShipsArray = value.enemyShips.map(
             (ship,index) => index !== hittedShip ? ship : {...ship, hits: ship.hits+1}
         )
+        finishGame(newShipsArray, "Player")
         const ship = hittedShip >= 0 ? newShipsArray[hittedShip] : {hits: 1, size: 0}
         const newBoard = updateHittedBoard(value.enemyBoard, ship, rowIndex, boxIndex)
         dispatch({
@@ -111,15 +115,14 @@ export const PlayerProvider = ({ children }) => {
         })
     }
 
-    const finishGame = () => {
-        const winner = allShipsSinked(value.enemyShips) ? "Player" 
-            : allShipsSinked(value.ships) ? "Enemy" : ""
-        dispatch({
-            type: actions.FINISH_GAME,
-            payload: {
-                winner: winner
-            }
-        })
+    const finishGame = (array, currentPlayer) => {
+        if (allShipsSinked(array))
+            dispatch({
+                type: actions.FINISH_GAME,
+                payload: {
+                    winnerName: currentPlayer
+                }
+            })
     }
 
     const value = {
@@ -128,6 +131,7 @@ export const PlayerProvider = ({ children }) => {
         enemyBoard: state.enemyBoard,
         enemyShips: state.enemyShips,
         winnerName: state.winnerName,
+        playing: state.playing,
         startGame,
         addShip,
         clearShip,

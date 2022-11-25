@@ -1,24 +1,22 @@
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { EnemyBoard } from "../../Components/EnemyBoard"
 import { PlayerBoard } from "../../Components/PlayerBoard"
 import { usePlayer } from "../../Context/Player/PlayerContext"
-import { allShipsSinked } from "../../Helper/ShipHelper"
 import { GameContainer } from "./styles"
 
 const Game = () => {
-    const { ships, enemyShips, enemyShot, playerShot, finishGame } = usePlayer()
+    const { enemyShot, playerShot, playing } = usePlayer()
     const navigate = useNavigate()
 
     const [playerTurn, setPlayerTurn] = useState(true)
     const turnEnding = useRef(false)
 
-    const checkWonCondition = () => { 
-        if ((allShipsSinked(ships)) || (allShipsSinked(enemyShips))) {
-            finishGame()
-            navigate("/game-result")
+    useEffect(() => {
+        if (!playing) {
+            navigate(`/game-result`)
         }
-    }
+    }, [playing])
 
     const toogleTurn = () => {
         setPlayerTurn(turn => !turn)
@@ -26,14 +24,12 @@ const Game = () => {
      
     const changeTurn = () => {
         toogleTurn()
-        checkWonCondition()
         setTimeout(
             () => {
                 enemyShot()
                 setTimeout(
                     () => {
                         toogleTurn()
-                        checkWonCondition()
                         turnEnding.current = false
                 },2000)
         },1000)

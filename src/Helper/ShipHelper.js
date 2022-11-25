@@ -39,7 +39,7 @@ export const placeRandomShip = (shipList, shipSize) => {
     const randomBox = getRandomPosition()
     const shipPosition = randomBox+shipSize
     if (!isOutOfRowBoundaries(shipPosition)) {
-        const boatCount = shipList.filter(ship => 
+        const boatCount = shipList.length === 0 ? [] : shipList.filter(ship => 
             ship.row === randomRow).filter(ship => 
                 canPlaceShipAtRowPosition(ship, randomBox, shipPosition))
         if (boatCount.length === 0){

@@ -77,7 +77,6 @@ export const reducer = (state, action) => {
         case actions.FINISH_GAME: {
             return {
                 ...state,
-                winnerName: payload.winner,
                 playing: false
             }
         }
