@@ -12,7 +12,7 @@ export const App = () => {
         <AppContainer>
           <Routes>
             <Route path='/' element={<Start />} />
-            <Route path='/boat-selection' element={<ShipSelection />} />
+            <Route path='/ship-selection' element={<ShipSelection />} />
             <Route path='/game' element={<Game />} />
             <Route path='/game-result' element={<GameResult />} />
             <Route path='*' element={<Navigate to={"/"} />} />

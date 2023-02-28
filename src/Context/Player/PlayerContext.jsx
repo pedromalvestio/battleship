@@ -1,8 +1,4 @@
 import { createContext, useContext, useReducer } from "react";
-import { getRandomPosition } from "../../Constants/Board";
-import { SHIPS } from "../../Constants/Ships";
-import { isBoardPositionShotable, updateHittedBoard } from "../../Helper/BoardHelper";
-import { addShipOnRow, removeShipFromRow, isAnyShipAtPosition, placeRandomShip, allShipsSinked } from "../../Helper/ShipHelper";
 import { actions, initialState, reducer } from "./PlayerReducer";
 
 const PlayerContext = createContext(initialState);
@@ -10,119 +6,46 @@ const PlayerContext = createContext(initialState);
 export const PlayerProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    const startGame = () => {
-        console.log("gameStarted")
-        dispatch({type: actions.START_GAME})
+    const newGame = () => {
+        dispatch({type: actions.NEW_GAME})
     }
 
-    const updateBoard = (board) => {        
+    const setEnemyShips = (ships) => {
         dispatch({
-            type: actions.UPDATE_BOARD,
-            payload: {
-                board: board
-            }
-        })
-    }
-
-    const updateShips = (ships) => {
-        dispatch({
-            type: actions.UPDATE_SHIPS,
+            type: actions.SET_ENEMY_SHIPS,
             payload: {
                 ships: ships
             }
         })
     }
-    
-    const addShip = (ship) => {
-        const newBoard = value.board.map((row, index) => 
-            ship.row !== index ? row : addShipOnRow(ship, row)
-        )
+
+    const updatePlayer = (boardArray, shipsArray) => {
         dispatch({
-            type: actions.ADD_SHIP,
+            type: actions.UPDATE_PLAYER,
             payload: {
-                ship: ship,
-                board: newBoard
+                board: boardArray,
+                ships: shipsArray
             }
         })
     }
-
-    const setEnemyRandomShips = () => {
-        let randonShips = []
-        Object.values(SHIPS).forEach(
-            ship => {
-                for (let quantity = 0; quantity < ship.quantity; quantity++) {
-                    randonShips.push(placeRandomShip(randonShips, ship.size))
-                }
-            }
-        )
+   
+    const updateEnemy = (boardArray, shipsArray) => {
         dispatch({
-            type: actions.ADD_ENEMY_SHIP,
+            type: actions.UPDATE_ENEMY,
             payload: {
-                ships: randonShips
+                board: boardArray,
+                ships: shipsArray
             }
         })
     }
 
-    const clearShip = (ship) => {
-        let newBoard = [...value.board]
-        value.ships.forEach(s => {
-            if (s.size === ship.size) {
-                newBoard = newBoard.map((row, index) =>
-                    s.row !== index ? row : removeShipFromRow(s, row)
-                )
-            }
-        })
-        updateBoard(newBoard)
-        const newShips = value.ships.filter(s => s.size !== ship.size)
-        updateShips(newShips)
-    }
-
-    const enemyShot = () => {
-        const randomRow = getRandomPosition()
-        const randomBox = getRandomPosition()
-        if (isBoardPositionShotable(value.board, randomRow, randomBox)) {
-            const hittedShip = value.ships.findIndex(ship => isAnyShipAtPosition(ship, randomRow, randomBox))
-            const newShipsArray = value.ships.map(
-                (ship,index) => index !== hittedShip ? ship : {...ship, hits: ship.hits+1}
-            )
-            finishGame(newShipsArray, "Enemy")
-            const ship = hittedShip >= 0 ? newShipsArray[hittedShip] : {hits: 1, size: 0}
-            const newBoard = updateHittedBoard(value.board, ship, randomRow, randomBox)
-            dispatch({
-                type: actions.PLAYER_SHOT,
-                payload: {
-                    ships: newShipsArray,
-                    board: newBoard
-                }
-            })
-        } else enemyShot()
-    }
-    
-    const playerShot = (rowIndex, boxIndex) => {
-        const hittedShip = value.enemyShips.findIndex(ship => isAnyShipAtPosition(ship, rowIndex, boxIndex))
-        const newShipsArray = value.enemyShips.map(
-            (ship,index) => index !== hittedShip ? ship : {...ship, hits: ship.hits+1}
-        )
-        finishGame(newShipsArray, "Player")
-        const ship = hittedShip >= 0 ? newShipsArray[hittedShip] : {hits: 1, size: 0}
-        const newBoard = updateHittedBoard(value.enemyBoard, ship, rowIndex, boxIndex)
+    const finishGame = (currentPlayer) => {
         dispatch({
-            type: actions.ENEMY_SHOT,
+            type: actions.FINISH_GAME,
             payload: {
-                ships: newShipsArray,
-                board: newBoard
+                winnerName: currentPlayer
             }
         })
-    }
-
-    const finishGame = (array, currentPlayer) => {
-        if (allShipsSinked(array))
-            dispatch({
-                type: actions.FINISH_GAME,
-                payload: {
-                    winnerName: currentPlayer
-                }
-            })
     }
 
     const value = {
@@ -132,12 +55,10 @@ export const PlayerProvider = ({ children }) => {
         enemyShips: state.enemyShips,
         winnerName: state.winnerName,
         playing: state.playing,
-        startGame,
-        addShip,
-        clearShip,
-        playerShot,
-        enemyShot,
-        setEnemyRandomShips,
+        newGame,
+        updateEnemy,
+        updatePlayer,
+        setEnemyShips,
         finishGame
     }
 

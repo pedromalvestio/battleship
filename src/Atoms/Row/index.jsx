@@ -8,7 +8,7 @@ export const Row = ({rowIndex, rowColumns, getRowPosition}) => {
     }
 
     return (
-        <RowContainer>
+        <RowContainer data-testid="row">
             {rowColumns.map(
                 (column, index) => 
                     <Box

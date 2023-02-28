@@ -1,52 +1,31 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { EnemyBoard } from "../../Components/EnemyBoard"
-import { PlayerBoard } from "../../Components/PlayerBoard"
+import { EnemyBoard } from "../../Components/Game/EnemyBoard"
+import { TurnHeader } from "../../Components/Game/TurnHeader"
+import { PlayerBoard } from "../../Components/Game/PlayerBoard"
 import { usePlayer } from "../../Context/Player/PlayerContext"
 import { GameContainer } from "./styles"
+import { useGame } from "./UseGame"
 
 const Game = () => {
-    const { enemyShot, playerShot, playing } = usePlayer()
     const navigate = useNavigate()
-
     const [playerTurn, setPlayerTurn] = useState(true)
-    const turnEnding = useRef(false)
+    
+    const { onBoardClick } = useGame(setPlayerTurn)
+    const { playing, winnerName } = usePlayer()
 
     useEffect(() => {
-        if (!playing) {
+        if (!playing && winnerName !== "") {
             navigate(`/game-result`)
-        }
-    }, [playing])
-
-    const toogleTurn = () => {
-        setPlayerTurn(turn => !turn)
-    }
-     
-    const changeTurn = () => {
-        toogleTurn()
-        setTimeout(
-            () => {
-                enemyShot()
-                setTimeout(
-                    () => {
-                        toogleTurn()
-                        turnEnding.current = false
-                },2000)
-        },1000)
-    }
-
-    const getBoardPostition = (rowIndex, boxIndex) => {
-        if (turnEnding.current) return
-        playerShot(rowIndex, boxIndex)
-        turnEnding.current = true
-        setTimeout(() => changeTurn(),2000)
-    }
+        } else if (!playing) navigate(`/`)
+    }, [playing, winnerName, navigate])
     
     return (
         <GameContainer>
-            {!playerTurn && <PlayerBoard getBoardPostition={getBoardPostition}/>}
-            {playerTurn && <EnemyBoard getBoardPostition={getBoardPostition} />}
-        </GameContainer>  
+            <TurnHeader isPlayerTurn={playerTurn} />
+            {!playerTurn && <PlayerBoard />}
+            {playerTurn && <EnemyBoard getBoardPostition={onBoardClick} />}
+        </GameContainer> 
     )
 }
  

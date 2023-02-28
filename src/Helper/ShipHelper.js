@@ -1,6 +1,6 @@
 import { getRandomPosition } from "../Constants/Board";
 import { BOX_STATE } from "../Constants/Box";
-import { shipQuantity } from "../Constants/Ships";
+import { shipQuantity, SHIPS } from "../Constants/Ships";
 import { isOutOfRowBoundaries } from "./ArrayHelper";
 
 export const isShipSinked = (boat) => boat.hits === boat.size;
@@ -34,7 +34,7 @@ const canPlaceShipAtRowPosition = ({shipToCompare, boxIndex, shipPosition}) => {
     return box <= boxIndex && shipPosition < (box + size)
 }
 
-export const placeRandomShip = (shipList, shipSize) => {
+const placeRandomShip = (shipList, shipSize) => {
     const randomRow = getRandomPosition()
     const randomBox = getRandomPosition()
     const shipPosition = randomBox+shipSize
@@ -52,4 +52,17 @@ export const placeRandomShip = (shipList, shipSize) => {
         }
     }
     return placeRandomShip(shipList, shipSize)
+}
+
+export const getRadomShips = () => {
+    let randomShips = []
+    Object.values(SHIPS).forEach(
+        ship => {
+            for (let quantity = 0; quantity < ship.quantity; quantity++) {
+                randomShips.push(placeRandomShip(randomShips, ship.size))
+            }
+        }
+    )
+
+    return randomShips
 }
