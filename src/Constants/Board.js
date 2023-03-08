@@ -7,3 +7,5 @@ export const emptyRow = createArray(BOARD_SIZE,BOX_STATE.EMPTY)
 export const emptyBoard = createArray(BOARD_SIZE,emptyRow)
 
 export const getRandomPosition = () => Math.floor(Math.random() * BOARD_SIZE)
+
+export const getRandomBoardPosition = () => [getRandomPosition(), getRandomPosition()]

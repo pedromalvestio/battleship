@@ -1,10 +1,14 @@
 import { useRef } from "react"
-import { getRandomPosition } from "../../Constants/Board"
+import { getRandomBoardPosition } from "../../Constants/Board"
 import { usePlayer } from "../../Context/Player/PlayerContext"
-import { isBoardPositionShotable, updateHittedBoard } from "../../Helper/BoardHelper"
-import { allShipsSinked, isAnyShipAtPosition } from "../../Helper/ShipHelper"
+import { isBoardPositionShotable } from "../../Helper/BoardHelper"
+import { allShipsSinked } from "../../Helper/ShipHelper"
+import { useShotBoard } from "./UseShotBoard"
 
 export const useGame = (setPlayerTurn) => {
+    const TURN_CHANGE_TIME = 800
+    const SHOT_PLAYER_TIME = 1400
+
     const { 
         board, ships, 
         enemyBoard, enemyShips,
@@ -13,59 +17,48 @@ export const useGame = (setPlayerTurn) => {
 
     const turnEnding = useRef(false)
 
-    const updateHittedShip = (shipArray, hittedShip) => {
-        const newShipsArray = shipArray.map(
-            (ship,index) => index !== hittedShip ? ship : {...ship, hits: ship.hits+1}
-        )
-        const ship = hittedShip >= 0 ? newShipsArray[hittedShip] : {hits: 1, size: 0}
-        
-        return { newShipsArray, ship }
-    }
-
-    const toogleTurn = () => {
-        setPlayerTurn(turn => !turn)
-    }
-     
-    const changeTurn = () => {
-        setTimeout(() => {
-            toogleTurn()
-            setTimeout(
-                () => {
-                    shotPlayerBoard()
-                    setTimeout(
-                        () => {
-                            toogleTurn()
-                            turnEnding.current = false
-                    },2000)
-            },1000)
-        }, 1000)
-    }
-
     const onBoardClick = (rowIndex, boxIndex) => {
         if (turnEnding.current) return
         shotEnemyBoard(rowIndex, boxIndex)
-        turnEnding.current = true
         changeTurn()
     }
+    
+    const [ enemyBoardShot ] = useShotBoard(enemyBoard, enemyShips)
 
     const shotEnemyBoard = (rowIndex, boxIndex) => {
-        const hittedShip = enemyShips.findIndex(ship => isAnyShipAtPosition(ship, rowIndex, boxIndex))
-        const {newShipsArray, ship} = updateHittedShip(enemyShips, hittedShip)
-        checkEndGame(newShipsArray, "Player")
-        const newBoard = updateHittedBoard(enemyBoard, ship, rowIndex, boxIndex)
-        updateEnemy(newBoard, newShipsArray)
+        const { shotedShipBoard, shotedShipArray } = enemyBoardShot(rowIndex, boxIndex)
+        checkEndGame(shotedShipArray, "Player")
+        updateEnemy(shotedShipBoard, shotedShipArray)
     }
 
+    const changeTurn = () => {
+        turnEnding.current = true
+        setTimeout(() => {
+            toogleTurn()
+            setTimeout(() => {
+                shotPlayerBoard()
+                setTimeout(() => {
+                    toogleTurn()
+                    turnEnding.current = false
+                },SHOT_PLAYER_TIME)
+            },TURN_CHANGE_TIME)
+        },TURN_CHANGE_TIME)
+    }
+    
+    const toogleTurn = () => {
+        setPlayerTurn(turn => !turn)
+    }
+
+    const  [ playerBoardShot ] = useShotBoard(board, ships)
+
     const shotPlayerBoard = () => {
-        const randomRow = getRandomPosition()
-        const randomBox = getRandomPosition()
+        const [randomRow, randomBox] = getRandomBoardPosition()
         if (isBoardPositionShotable(board, randomRow, randomBox)) {
-            const hittedShip = ships.findIndex(ship => isAnyShipAtPosition(ship, randomRow, randomBox))
-            const {newShipsArray, ship} = updateHittedShip(ships, hittedShip)
-            checkEndGame(newShipsArray, "Enemy")
-            const newBoard = updateHittedBoard(board, ship, randomRow, randomBox)
-            updatePlayer(newBoard,newShipsArray)
-        } else shotPlayerBoard()
+            const { shotedShipBoard, shotedShipArray } = playerBoardShot(randomRow, randomBox)
+            checkEndGame(shotedShipArray, "Enemy")
+            updatePlayer(shotedShipBoard,shotedShipArray)
+        } 
+        else shotPlayerBoard()
     }
 
     const checkEndGame = (array, currentPlayer) => {

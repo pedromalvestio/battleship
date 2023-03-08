@@ -1,3 +1,5 @@
+export const INVALID_SHIP_SIZE = 0
+
 export const SHIPS = {
     BIG: {
         index: "BIG",

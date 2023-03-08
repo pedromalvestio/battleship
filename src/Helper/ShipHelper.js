@@ -1,9 +1,13 @@
-import { getRandomPosition } from "../Constants/Board";
+import { getRandomBoardPosition } from "../Constants/Board";
 import { BOX_STATE } from "../Constants/Box";
-import { shipQuantity, SHIPS } from "../Constants/Ships";
+import { INVALID_SHIP_SIZE, shipQuantity, SHIPS } from "../Constants/Ships";
 import { isOutOfRowBoundaries } from "./ArrayHelper";
 
-export const isShipSinked = (boat) => boat.hits === boat.size;
+export const isShipSinked = (ship) => ship.hits === ship.size;
+
+const isShipHitted = (ship) => ship.size > INVALID_SHIP_SIZE
+
+export const getRowBoxByHittedShip = (ship) => isShipHitted(ship) ? BOX_STATE.HIT : BOX_STATE.MISS
 
 export const allShipsPlaced = (shipsArray) => (
     shipQuantity() === shipsArray.length
@@ -13,16 +17,16 @@ export const allShipsSinked = (shipsArray) => (
     shipQuantity() === shipsArray.filter(s => s.size === s.hits).length
 )
 
+export const addShipOnRow = (ship, arrayRow) => changeRowBoxesByShipPosition(ship, arrayRow, BOX_STATE.SHIP)
+export const sinkShipOnRow = (ship, arrayRow) => changeRowBoxesByShipPosition(ship, arrayRow, BOX_STATE.SINK)
+export const removeShipFromRow = (ship, arrayRow) => changeRowBoxesByShipPosition(ship, arrayRow, BOX_STATE.EMPTY)
+
 const changeRowBoxesByShipPosition = (ship, arrayRow, boxState) => {
     const { box, size } = ship
     const newRow = arrayRow.map((column,index) => 
             index >= box && index < (box+size) ? boxState : column)
     return newRow
 }
-
-export const addShipOnRow = (ship, arrayRow) => changeRowBoxesByShipPosition(ship, arrayRow, BOX_STATE.SHIP)
-export const sinkShipOnRow = (ship, arrayRow) => changeRowBoxesByShipPosition(ship, arrayRow, BOX_STATE.SINK)
-export const removeShipFromRow = (ship, arrayRow) => changeRowBoxesByShipPosition(ship, arrayRow, BOX_STATE.EMPTY)
 
 export const isAnyShipAtPosition = (ship, rowIndex, boxIndex) => {
     const { row, box, size } = ship
@@ -35,9 +39,8 @@ const canPlaceShipAtRowPosition = ({shipToCompare, boxIndex, shipPosition}) => {
 }
 
 const placeRandomShip = (shipList, shipSize) => {
-    const randomRow = getRandomPosition()
-    const randomBox = getRandomPosition()
-    const shipPosition = randomBox+shipSize
+    const [randomRow, randomBox] = getRandomBoardPosition()
+    const shipPosition = randomBox + shipSize
     if (!isOutOfRowBoundaries(shipPosition)) {
         const boatCount = shipList.length === 0 ? [] : shipList.filter(ship => 
             ship.row === randomRow).filter(ship => 
