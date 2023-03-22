@@ -1,13 +1,11 @@
-import { useRef } from "react"
-import { getRandomBoardPosition } from "../../Constants/Board"
-import { usePlayer } from "../../Context/Player/PlayerContext"
-import { isBoardPositionShotable } from "../../Helper/BoardHelper"
-import { allShipsSinked } from "../../Helper/ShipHelper"
+import { getRandomBoardPosition } from "../../../Constants/Board"
+import { usePlayer } from "../../../Context/Player/PlayerContext"
+import { isBoardPositionShotable } from "../../../Helper/BoardHelper"
+import { allShipsSinked } from "../../../Helper/ShipHelper"
 import { useShotBoard } from "./UseShotBoard"
 
-export const useGame = (setPlayerTurn) => {
-    const TURN_CHANGE_TIME = 800
-    const SHOT_PLAYER_TIME = 1400
+export const useGameBoard = () => {
+    const TURN_CHANGE_TIME = 1000
 
     const { 
         board, ships, 
@@ -15,38 +13,12 @@ export const useGame = (setPlayerTurn) => {
         updateEnemy, updatePlayer, finishGame 
     } = usePlayer()
 
-    const turnEnding = useRef(false)
-
-    const onBoardClick = (rowIndex, boxIndex) => {
-        if (turnEnding.current) return
-        shotEnemyBoard(rowIndex, boxIndex)
-        changeTurn()
-    }
-    
     const [ enemyBoardShot ] = useShotBoard(enemyBoard, enemyShips)
 
     const shotEnemyBoard = (rowIndex, boxIndex) => {
         const { shotedShipBoard, shotedShipArray } = enemyBoardShot(rowIndex, boxIndex)
         checkEndGame(shotedShipArray, "Player")
         updateEnemy(shotedShipBoard, shotedShipArray)
-    }
-
-    const changeTurn = () => {
-        turnEnding.current = true
-        setTimeout(() => {
-            toogleTurn()
-            setTimeout(() => {
-                shotPlayerBoard()
-                setTimeout(() => {
-                    toogleTurn()
-                    turnEnding.current = false
-                },SHOT_PLAYER_TIME)
-            },TURN_CHANGE_TIME)
-        },TURN_CHANGE_TIME)
-    }
-    
-    const toogleTurn = () => {
-        setPlayerTurn(turn => !turn)
     }
 
     const  [ playerBoardShot ] = useShotBoard(board, ships)
@@ -67,6 +39,10 @@ export const useGame = (setPlayerTurn) => {
     }
 
     return {
-        onBoardClick
+        enemyBoard,
+        shotEnemyBoard,
+        board,
+        shotPlayerBoard,
+        TURN_CHANGE_TIME
     }
 }

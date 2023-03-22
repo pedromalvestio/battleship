@@ -1,4 +1,5 @@
-import { getRowBoxByHittedShip, isAnyShipAtPosition, isShipSinked, sinkShipOnRow } from "../../Helper/ShipHelper"
+import { getRowBoxByHittedShip, isAnyShipAtPosition, isShipSinked, sinkShipOnRow } from "../../../Helper/ShipHelper"
+
 
 export const useShotBoard = (board, shipsArray) => {
 
@@ -9,6 +10,7 @@ export const useShotBoard = (board, shipsArray) => {
 
         return { shotedShipArray, shotedShipBoard }
     }
+    
     const getHittedShipIndex = (rowIndex, boxIndex) => shipsArray.findIndex(ship => isAnyShipAtPosition(ship, rowIndex, boxIndex))
     
     const updateShottedShipAndArray = (hittedShipIndex) => {

@@ -1,4 +1,8 @@
-export const TurnHeader = ({isPlayerTurn}) => {
+import { useGameContext } from "../../../Context/Game/GameContext"
+
+export const TurnHeader = () => {
+
+    const { turn } = useGameContext()
 
     const PlayerHeader = () => {
         return (
@@ -20,8 +24,7 @@ export const TurnHeader = ({isPlayerTurn}) => {
 
     return (
         <>
-            {isPlayerTurn && <PlayerHeader />}
-            {!isPlayerTurn && <EnemyHeader />}
+            {turn ? <PlayerHeader /> : <EnemyHeader />}
         </>
     )
 }

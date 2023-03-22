@@ -1,11 +1,13 @@
 export const initialState = {
     winnerName: "",
-    playing: false
+    playing: false,
+    turn: true
 }
 
 export const actions = {
     START_GAME: "START_GAME",
     FINISH_GAME:"FINISH_GAME",
+    TOGGLE_TURN: "TOGGLE_TURN",
 }
 
 export const reducer = (state, action) => {
@@ -24,7 +26,13 @@ export const reducer = (state, action) => {
                 playing: false
             }
         }
+        case actions.TOGGLE_TURN: {
+            return {
+                ...state,
+                turn: payload.turn,
+            }
+        }
         default:
-            throw new Error(`No case for type ${type} found in PlayerReducer.`);
+            throw new Error(`No case for type ${type} found in GameReducer.`);
     }
 }

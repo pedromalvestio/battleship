@@ -10,14 +10,14 @@ export const ShipMenu = () => {
         anySelectShipPlaced,
         isAllShipsPlaced,
         startGame, 
-        removeSelectedShips, 
+        removeSelectedShipsBySize, 
     } = useShipSelection()
 
     return (
         <ShipMenuContainer>
             <ShipSelect />
             <ShipCount />
-            {anySelectShipPlaced && <Button text={"Clear"} click={removeSelectedShips} />}
+            {anySelectShipPlaced && <Button text={"Clear"} click={removeSelectedShipsBySize} />}
             {isAllShipsPlaced && <Button text={"Done"} click={startGame} />}
         </ShipMenuContainer>
     )

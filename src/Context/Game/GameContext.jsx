@@ -21,11 +21,22 @@ export const GameProvider = ({children}) => {
             })
     }
 
+    const toggleTurn = () => {
+        dispatch({
+            type: actions.TOGGLE_TURN,
+            payload: {
+                turn: !state.turn
+            }
+        })
+    }
+
     const value = {
         winnerName: state.winnerName,
         playing: state.playing,
+        turn: state.turn,
         startGame,
-        finishGame
+        finishGame,
+        toggleTurn
     }
 
     return (
@@ -35,7 +46,7 @@ export const GameProvider = ({children}) => {
     )
 }
 
-export const useGame = () => {
+export const useGameContext = () => {
     const context = useContext(GameContext)
 
     if (context === undefined) {

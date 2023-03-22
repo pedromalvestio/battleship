@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom"
+import { shipQuantity } from "../../Constants/Ships"
 import { usePlayer } from "../../Context/Player/PlayerContext"
 import { useShipSelectionContext } from "../../Context/ShipSelection/ShipSelectionContext"
-import { allShipsPlaced, getRadomShips, removeShipFromRow } from "../../Helper/ShipHelper"
+import { getRadomShips, removeShipFromRow } from "../../Helper/ShipHelper"
 
 export const useShipSelection = () => {
     const { ships, board, setEnemyShips, updatePlayer } = usePlayer()
@@ -14,13 +15,14 @@ export const useShipSelection = () => {
         navigate("/game")
     }
 
-    const shipCountFilter = (ship) => ship.size === shipSize
     const SelectedShipCount = () => ships.filter(shipCountFilter).length
+    const shipCountFilter = (ship) => ship.size === shipSize
     
     const anySelectShipPlaced = SelectedShipCount() > 0
-    const isAllShipsPlaced = allShipsPlaced(ships)
     
-    const removeSelectedShips = () => {
+    const isAllShipsPlaced = shipQuantity() === ships.length
+    
+    const removeSelectedShipsBySize = () => {
         let newBoard = [...board]
         ships.forEach(s => {
             if (s.size === shipSize) {
@@ -37,7 +39,7 @@ export const useShipSelection = () => {
         anySelectShipPlaced,
         isAllShipsPlaced,
         startGame,
-        removeSelectedShips,
+        removeSelectedShipsBySize,
         SelectedShipCount
     }
 }

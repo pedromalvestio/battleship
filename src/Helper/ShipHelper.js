@@ -9,10 +9,6 @@ const isShipHitted = (ship) => ship.size > INVALID_SHIP_SIZE
 
 export const getRowBoxByHittedShip = (ship) => isShipHitted(ship) ? BOX_STATE.HIT : BOX_STATE.MISS
 
-export const allShipsPlaced = (shipsArray) => (
-    shipQuantity() === shipsArray.length
-)
-
 export const allShipsSinked = (shipsArray) => (
     shipQuantity() === shipsArray.filter(s => s.size === s.hits).length
 )
@@ -43,8 +39,7 @@ const placeRandomShip = (shipList, shipSize) => {
     const shipPosition = randomBox + shipSize
     if (!isOutOfRowBoundaries(shipPosition)) {
         const boatCount = shipList.length === 0 ? [] : shipList.filter(ship => 
-            ship.row === randomRow).filter(ship => 
-                canPlaceShipAtRowPosition(ship, randomBox, shipPosition))
+            ship.row === randomRow && canPlaceShipAtRowPosition(ship, randomBox, shipPosition))
         if (boatCount.length === 0){
             return {
                 row: randomRow,
