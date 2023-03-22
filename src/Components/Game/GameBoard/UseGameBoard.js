@@ -1,7 +1,7 @@
-import { getRandomBoardPosition } from "../../../Constants/Board"
-import { usePlayer } from "../../../Context/Player/PlayerContext"
-import { isBoardPositionShotable } from "../../../Helper/BoardHelper"
-import { allShipsSinked } from "../../../Helper/ShipHelper"
+import { getRandomBoardPosition } from "Constants/Board"
+import { usePlayer } from "Context/Player/PlayerContext"
+import { isBoardPositionShotable } from "Helper/BoardHelper"
+import { allShipsSinked } from "Helper/ShipHelper"
 import { useShotBoard } from "./UseShotBoard"
 
 export const useGameBoard = () => {

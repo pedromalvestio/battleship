@@ -1,8 +1,8 @@
 import { useRef } from "react"
-import Board from "../../../../Atoms/Board"
-import { BOX_STATE } from "../../../../Constants/Box"
-import { useGameContext } from "../../../../Context/Game/GameContext"
+import Board from "Atoms/Board"
+import { BOX_STATE } from "Constants/Box"
 import { useGameBoard } from "../UseGameBoard"
+import { useGameContext } from "Context/Game/GameContext"
 
 export const EnemyBoard = () => {
     const { enemyBoard, shotEnemyBoard, TURN_CHANGE_TIME } = useGameBoard()

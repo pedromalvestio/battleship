@@ -1,4 +1,4 @@
-import { useGameContext } from "../../../Context/Game/GameContext"
+import { useGameContext } from "Context/Game/GameContext"
 import { PlayerBoard } from "./PlayerBoard"
 import { EnemyBoard } from "./EnemyBoard"
 

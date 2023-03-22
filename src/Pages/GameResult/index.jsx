@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import Button from "../../Atoms/Button";
-import { usePlayer } from "../../Context/Player/PlayerContext";
+import Button from "Atoms/Button";
+import { usePlayer } from "Context/Player/PlayerContext";
 
 const GameResult = () => {
     const { winnerName } = usePlayer()

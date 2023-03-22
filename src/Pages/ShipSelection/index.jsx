@@ -1,6 +1,6 @@
-import { PlaceShipBoard } from "../../Components/ShipSelection/PlaceShipBoard";
-import { ShipMenu } from "../../Components/ShipSelection/ShipMenu";
-import { ShipSelectionProvider } from "../../Context/ShipSelection/ShipSelectionContext";
+import { PlaceShipBoard } from "Components/ShipSelection/PlaceShipBoard";
+import { ShipMenu } from "Components/ShipSelection/ShipMenu";
+import { ShipSelectionProvider } from "Context/ShipSelection/ShipSelectionContext";
 import { ShipSelectionContainer } from "./styles";
 
 const ShipSelection = () => {

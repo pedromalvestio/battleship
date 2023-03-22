@@ -1,4 +1,4 @@
-import { getRowBoxByHittedShip, isAnyShipAtPosition, isShipSinked, sinkShipOnRow } from "../../../Helper/ShipHelper"
+import { getRowBoxByHittedShip, isAnyShipAtPosition, isShipSinked, sinkShipOnRow } from "Helper/ShipHelper"
 
 
 export const useShotBoard = (board, shipsArray) => {
