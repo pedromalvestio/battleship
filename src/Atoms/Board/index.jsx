@@ -1,4 +1,5 @@
-import { Row } from '../Row';
+import { Row } from "Atoms/Row";
+
 
 const Board = ({board, getRowPosition}) => {
     

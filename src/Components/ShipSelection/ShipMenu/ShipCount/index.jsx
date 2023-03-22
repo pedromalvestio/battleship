@@ -1,8 +1,9 @@
-import { useShipSelectionContext } from "../../../../Context/ShipSelection/ShipSelectionContext";
-import { useShipSelection } from "../../UseShipSelection";
+import { useShipSelection } from "Components/ShipSelection/UseShipSelection";
+import { useShipSelectionContext } from "Context/ShipSelection/ShipSelectionContext";
+
 import { ShipCountCountainer } from "./styles";
 
-const ShipCount = ({shipCount}) => {
+const ShipCount = () => {
     const { shipQuantity } = useShipSelectionContext()
     const { SelectedShipCount } = useShipSelection()
 

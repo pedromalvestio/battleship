@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import Board from ".";
-import { BOARD_SIZE, emptyBoard } from "../../Constants/Board"
+import { BOARD_SIZE, emptyBoard } from "Constants/Board"
 
 describe("Check board structure", () => {
     it("Board with the expected rows and box size", () => {

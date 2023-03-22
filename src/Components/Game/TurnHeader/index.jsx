@@ -1,4 +1,4 @@
-import { useGameContext } from "../../../Context/Game/GameContext"
+import { useGameContext } from "Context/Game/GameContext"
 
 export const TurnHeader = () => {
 

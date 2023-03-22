@@ -1,5 +1,5 @@
-import { BOARD_SIZE } from "../Constants/Board";
-import { isBoxShip } from "../Constants/Box";
+import { BOARD_SIZE } from "Constants/Board";
+import { isBoxShip } from "Constants/Box";
 
 export const createArray = (size, value) => {
     return Array(size).fill(value);

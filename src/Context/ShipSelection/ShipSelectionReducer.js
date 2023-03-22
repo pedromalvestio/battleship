@@ -1,4 +1,4 @@
-import { SHIPS } from "../../Constants/Ships";
+import { SHIPS } from "Constants/Ships";
 
 export const initialState = {
     selectedShip: SHIPS.BIG.index,

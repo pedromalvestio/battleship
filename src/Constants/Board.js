@@ -1,4 +1,4 @@
-import { createArray } from "../Helper/ArrayHelper";
+import { createArray } from "Helper/ArrayHelper";
 import { BOX_STATE } from "./Box";
 
 export const BOARD_SIZE = 10

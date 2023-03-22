@@ -1,4 +1,4 @@
-import { BOX_STATE } from "../Constants/Box"
+import { BOX_STATE } from "Constants/Box"
 import { addShipOnRow } from "./ShipHelper"
 
 export const addShipAtBoard = (board, ship) => board.map((row, index) => 

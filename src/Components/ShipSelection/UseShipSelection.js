@@ -1,8 +1,9 @@
+import { getRadomShips, removeShipFromRow } from "Helper/ShipHelper"
 import { useNavigate } from "react-router-dom"
-import { shipQuantity } from "../../Constants/Ships"
-import { usePlayer } from "../../Context/Player/PlayerContext"
-import { useShipSelectionContext } from "../../Context/ShipSelection/ShipSelectionContext"
-import { getRadomShips, removeShipFromRow } from "../../Helper/ShipHelper"
+import { shipQuantity } from "Constants/Ships"
+import { usePlayer } from "Context/Player/PlayerContext"
+import { useShipSelectionContext } from "Context/ShipSelection/ShipSelectionContext"
+
 
 export const useShipSelection = () => {
     const { ships, board, setEnemyShips, updatePlayer } = usePlayer()

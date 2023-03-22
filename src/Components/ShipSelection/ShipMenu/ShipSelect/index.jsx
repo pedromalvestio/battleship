@@ -1,5 +1,5 @@
-import { SHIPS } from "../../../../Constants/Ships";
-import { useShipSelectionContext } from "../../../../Context/ShipSelection/ShipSelectionContext";
+import { SHIPS } from "Constants/Ships";
+import { useShipSelectionContext } from "Context/ShipSelection/ShipSelectionContext";
 import { Select } from "./styles";
 
 const ShipSelect = () => {

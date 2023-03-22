@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer } from "react";
-import { allShipsSinked } from "../../Helper/ShipHelper";
+import { allShipsSinked } from "Helper/ShipHelper";
 import { actions, initialState, reducer } from "./GameReducer";
 
 const GameContext = createContext(initialState)

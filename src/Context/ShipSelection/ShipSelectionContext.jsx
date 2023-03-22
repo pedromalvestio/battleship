@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer } from "react";
-import { SHIPS } from "../../Constants/Ships";
+import { SHIPS } from "Constants/Ships";
 import { actions, initialState, reducer } from "./ShipSelectionReducer";
 
 const ShipSelectionContext = createContext(initialState)

@@ -1,4 +1,4 @@
-import { emptyBoard } from "../../Constants/Board";
+import { emptyBoard } from "Constants/Board";
 
 export const initialState = {
     board: emptyBoard,

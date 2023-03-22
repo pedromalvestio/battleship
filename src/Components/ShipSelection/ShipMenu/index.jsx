@@ -1,4 +1,4 @@
-import Button from "../../../Atoms/Button"
+import Button from "Atoms/Button"
 import ShipSelect from "./ShipSelect"
 import ShipCount from "./ShipCount"
 import { ShipMenuContainer } from "./styles"

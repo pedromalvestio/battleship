@@ -1,6 +1,6 @@
-import { getRandomBoardPosition } from "../Constants/Board";
-import { BOX_STATE } from "../Constants/Box";
-import { INVALID_SHIP_SIZE, shipQuantity, SHIPS } from "../Constants/Ships";
+import { getRandomBoardPosition } from "Constants/Board";
+import { BOX_STATE } from "Constants/Box";
+import { INVALID_SHIP_SIZE, shipQuantity, SHIPS } from "Constants/Ships";
 import { isOutOfRowBoundaries } from "./ArrayHelper";
 
 export const isShipSinked = (ship) => ship.hits === ship.size;

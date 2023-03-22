@@ -1,4 +1,4 @@
-import { Box } from '../../Atoms/Box';
+import { Box } from 'Atoms/Box';
 import { RowContainer } from './styles';
 
 export const Row = ({rowIndex, rowColumns, getRowPosition}) => {

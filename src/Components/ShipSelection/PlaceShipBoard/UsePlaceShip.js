@@ -1,8 +1,8 @@
-import { SHIPS } from "../../../Constants/Ships";
-import { usePlayer } from "../../../Context/Player/PlayerContext";
-import { useShipSelectionContext } from "../../../Context/ShipSelection/ShipSelectionContext";
-import { canPlaceShipAtRow } from "../../../Helper/ArrayHelper";
-import { addShipAtBoard } from "../../../Helper/BoardHelper";
+import { SHIPS } from "Constants/Ships";
+import { usePlayer } from "Context/Player/PlayerContext";
+import { useShipSelectionContext } from "Context/ShipSelection/ShipSelectionContext";
+import { canPlaceShipAtRow } from "Helper/ArrayHelper";
+import { addShipAtBoard } from "Helper/BoardHelper";
 import { useShipSelection } from "../UseShipSelection";
 
 export const usePalceShip = () => {
